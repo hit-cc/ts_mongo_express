@@ -2,9 +2,9 @@ import express = require("express");
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 import env from "../environment";
+import { CommonRoutes } from "../routes/commonRoutes";
+import { UserRoutes } from "../routes/userRoutes";
 import { TestRoutes } from "../routes/test_routes";
-import { CommonRoutes } from "../routes/CommonRoutes";
-import { UserRoutes } from "./../routes/userRoutes";
 class App {
   public app: express.Application;
   private db_conn_url = `mongodb+srv://cccmongodb:ccc1_mongodb@cc-cluster.tyb3i.mongodb.net/db_ts_mongo_express_local`;
