@@ -113,11 +113,14 @@ export class UserController {
             if (err) {
               mongoError(err, res);
             } else if (user_data) {
-              user_data.modification_notes.push({
-                modified_on: new Date(Date.now()),
-                modified_by: "",
-                modification_note: "User data updated",
-              });
+              console.log("USERDATA==>", user_data);
+              user_data.modification_notes = [
+                {
+                  modified_on: new Date(Date.now()),
+                  modified_by: "update_user",
+                  modification_note: "User data updated",
+                },
+              ];
               const user_params: IUser = {
                 _id: req.params.id,
                 name: req.body.name
