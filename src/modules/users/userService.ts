@@ -1,3 +1,4 @@
+import { query } from "express";
 import { IUser } from "./userModel";
 import userSchema from "./userSchema";
 
@@ -19,5 +20,9 @@ export default class UserService {
   public deleteUser(_id: String, callback: any) {
     const query = { _id: _id };
     userSchema.deleteOne(query, callback);
+  }
+
+  public getAllUsers(query: any, callback: any) {
+    userSchema.find(query, callback);
   }
 }

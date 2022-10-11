@@ -79,7 +79,13 @@ export class UserController {
             if (err) {
               mongoError(err, res);
             } else {
-              successResponse("get user successfully!", user_data, res);
+              user_data == null
+                ? successResponse(
+                    "unable to get users, please check user id.",
+                    user_data,
+                    res
+                  )
+                : successResponse("get user successfully!", user_data, res);
             }
           }
         );
@@ -96,6 +102,8 @@ export class UserController {
    * update user
    */
   public update_user(req: Request, res: Response) {
+    console.log("req.body ::", req.body);
+
     try {
       if (
         (req.params.id && req.body.name) ||
@@ -110,17 +118,23 @@ export class UserController {
         this.user_service.filterUser(
           user_filter,
           (err: any, user_data: IUser) => {
+            console.log("user_data filter_for uipdate:;", user_data);
+
             if (err) {
               mongoError(err, res);
             } else if (user_data) {
-              console.log("USERDATA==>", user_data);
               user_data.modification_notes = [
                 {
                   modified_on: new Date(Date.now()),
-                  modified_by: "update_user",
-                  modification_note: "User data updated",
+                  modified_by:
+                    user_data.name.first_name +
+                      " " +
+                      user_data.name.last_name || "",
+                  modification_note:
+                    req.body.modification_notes.modification_note || "",
                 },
               ];
+
               const user_params: IUser = {
                 _id: req.params.id,
                 name: req.body.name
@@ -146,11 +160,18 @@ export class UserController {
                   : user_data.is_deleted,
                 modification_notes: user_data.modification_notes,
               };
+
+              console.log("user_params =====>>", user_params);
+
               this.user_service.updateUser(user_params, (err: any) => {
                 if (err) {
                   mongoError(err, res);
                 } else {
-                  successResponse("update user successfull", null, res);
+                  successResponse(
+                    "user updated successfull!",
+                    user_params,
+                    res
+                  );
                 }
               });
             } else {
@@ -179,7 +200,7 @@ export class UserController {
             if (err) {
               mongoError(err, res);
             } else if (delete_details.deletedCount !== 0) {
-              successResponse("delete user successfull", null, res);
+              successResponse("user deleted successfull!", null, res);
             } else {
               failureResponse("invalid user", null, res);
             }
@@ -189,5 +210,32 @@ export class UserController {
         insufficientParameters(res);
       }
     } catch (error) {}
+  }
+
+  /**
+   * getAllUsers
+   */
+  public getAllUsers(req: Request, res: Response) {
+    try {
+      this.user_service.getAllUsers(null, (err: any, user_data: any) => {
+        if (err) {
+          mongoError(err, res);
+        } else {
+          if (user_data.length == 0) {
+            successResponse("No records found !", user_data, res);
+          } else {
+            successResponse(
+              "get all users successfully!",
+              user_data,
+              res,
+              user_data.length
+            );
+          }
+        }
+      });
+    } catch (error) {
+      console.error("error from get all user list catch =>>", error);
+      throw error;
+    }
   }
 }

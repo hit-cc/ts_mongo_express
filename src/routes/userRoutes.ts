@@ -20,5 +20,9 @@ export class UserRoutes {
     app.delete("/api/user/:id", (req: Request, res: Response) => {
       this.user_controller.delete_user(req, res);
     });
+
+    app.get("/api/user", (req: Request, res: Response) => {
+      this.user_controller.getAllUsers(req, res);
+    });
   }
 }

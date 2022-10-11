@@ -1,20 +1,23 @@
 import express = require("express");
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
-import env from "../environment";
 import { CommonRoutes } from "../routes/commonRoutes";
 import { UserRoutes } from "../routes/userRoutes";
 import { TestRoutes } from "../routes/test_routes";
+import { AuthRoute } from "../routes/authRoutes";
+
 class App {
   public app: express.Application;
   private db_conn_url = `mongodb+srv://cccmongodb:ccc1_mongodb@cc-cluster.tyb3i.mongodb.net/db_ts_mongo_express_local`;
   private test_routes: TestRoutes = new TestRoutes(); // test routes
   private common_routes: CommonRoutes = new CommonRoutes(); // wildcard routes if not path match return message invalid url;
   private user_routes: UserRoutes = new UserRoutes();
+  private auth_routes: AuthRoute = new AuthRoute();
   constructor() {
     this.app = express();
     this.config();
     this.mongoSetup();
+    this.auth_routes.route(this.app);
     this.test_routes.route(this.app);
     this.user_routes.route(this.app);
 

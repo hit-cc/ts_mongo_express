@@ -9,6 +9,8 @@ class Environment {
   private environment: String;
   private _MONGO_USER = "cccmongodb";
   private _MONGO_PASS = "ccc1_mongodb";
+  private ACCESS_TOKEN_PRIVATE_KEY = "AAFSFR23456789&&&Edfdf";
+  private ACCESS_TOKEN_PUBLIC_KEY = "TOPSERCRETFSFR23456789&&&Edfdf";
   constructor(environment: String) {
     this.environment = environment;
   }
@@ -43,6 +45,14 @@ class Environment {
 
   getMongoPass(): string {
     return this._MONGO_PASS;
+  }
+
+  getAccessTokenPrivateKey() {
+    return this.ACCESS_TOKEN_PRIVATE_KEY;
+  }
+
+  getAccessTokenPublicKey() {
+    return this.ACCESS_TOKEN_PUBLIC_KEY;
   }
 }
 

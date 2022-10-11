@@ -1,10 +1,16 @@
 import { Response } from "express";
 import { response_status_codes } from "./commonModel";
 
-export function successResponse(message: string, DATA: any, res: Response) {
+export function successResponse(
+  message: string,
+  DATA: any,
+  res: Response,
+  TOTAL_RECORDS?: Number
+) {
   res.status(response_status_codes.success).json({
     STATUS: "SUCCESS",
     MESSAGE: message,
+    TOTAL_RECORDS,
     DATA,
   });
 }
@@ -13,7 +19,7 @@ export function failureResponse(message: string, DATA: any, res: Response) {
   res.status(response_status_codes.success).json({
     STATUS: "FAILURE",
     MESSAGE: message,
-    DATA,
+    DATA: [],
   });
 }
 
