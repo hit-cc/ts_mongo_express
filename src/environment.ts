@@ -7,6 +7,8 @@ enum Environments {
 
 class Environment {
   private environment: String;
+  private MONGO_CLUSTER_URL =
+    "mongodb+srv://cccmongodb:ccc1_mongodb@cc-cluster.tyb3i.mongodb.net/db_ts_mongo_express_local";
   private _MONGO_USER = "cccmongodb";
   private _MONGO_PASS = "ccc1_mongodb";
   private ACCESS_TOKEN_PRIVATE_KEY = "AAFSFR23456789&&&Edfdf";
@@ -53,6 +55,10 @@ class Environment {
 
   getAccessTokenPublicKey() {
     return this.ACCESS_TOKEN_PUBLIC_KEY;
+  }
+
+  getConnectionString() {
+    return this.MONGO_CLUSTER_URL;
   }
 }
 

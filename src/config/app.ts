@@ -5,10 +5,11 @@ import { CommonRoutes } from "../routes/commonRoutes";
 import { UserRoutes } from "../routes/userRoutes";
 import { TestRoutes } from "../routes/test_routes";
 import { AuthRoute } from "../routes/authRoutes";
+import environment from "../environment";
 
 class App {
   public app: express.Application;
-  private db_conn_url = `mongodb+srv://cccmongodb:ccc1_mongodb@cc-cluster.tyb3i.mongodb.net/db_ts_mongo_express_local`;
+  private db_conn_url = environment.getConnectionString();
   private test_routes: TestRoutes = new TestRoutes(); // test routes
   private common_routes: CommonRoutes = new CommonRoutes(); // wildcard routes if not path match return message invalid url;
   private user_routes: UserRoutes = new UserRoutes();
