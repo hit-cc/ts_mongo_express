@@ -8,7 +8,8 @@ import {
 } from "../modules/common/commonService";
 import { IAuth } from "../modules/auth/authModel";
 import * as bycript from "bcrypt";
-
+import jwt, { Secret, JwtPayload } from "jsonwebtoken";
+import environment from "../environment";
 export class AuthController {
   private authService: authService = new authService();
   constructor() {}
@@ -19,10 +20,8 @@ export class AuthController {
   public loginOne(req: Request, res: Response) {
     try {
       let { username, password } = req.body;
-      console.log("Req_Body=>>>", req.body);
       if (username && password) {
         this.authService.login(req.body, (err: any, user_data: any) => {
-          console.log("USER_DATA=>>>", user_data);
           if (err) {
             mongoError(err, res);
           } else {
@@ -39,10 +38,18 @@ export class AuthController {
               );
 
               if (isMatch) {
-                let idd = user_data._id;
+                let _id = user_data._id;
+                let token = jwt.sign(
+                  { _id: _id?.toString(), username: user_data.username },
+                  environment.getAccessTokenPrivateKey(),
+                  {
+                    expiresIn: "2 days",
+                  }
+                );
+
                 successResponse(
                   `Welcome ${user_data.username} !`,
-                  { idd },
+                  { _id, username, token },
                   res
                 );
               } else {

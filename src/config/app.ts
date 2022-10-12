@@ -33,10 +33,10 @@ class App {
     mongoose
       .connect(this.db_conn_url)
       .then((res) => {
-        console.log("db connected!");
+        console.info("db connected!");
       })
       .catch((err) => {
-        console.log("error to connect with db:", err);
+        console.error("error to connect with db:", err);
       });
   }
 }

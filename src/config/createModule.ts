@@ -49,13 +49,27 @@ function createModuleFiles(module_path: any, module_name: any) {
 
   for (let i = 0; i < files.length; i++) {
     const el = files[i];
-    fs.writeFile(
-      module_path + "/" + `${module_name + el.fileName}`,
-      "",
-      function (err) {
-        if (err) throw err;
-      }
-    );
+    if (el.id == 2) {
+      let className =
+        module_name.charAt(0).toUpperCase() + module_name.slice(1) + "Service";
+      fs.writeFile(
+        module_path + "/" + `${module_name + el.fileName}`,
+        `export default class ${className} {}`,
+        function (err) {
+          if (err) throw err;
+          return;
+        }
+      );
+    } else {
+      fs.writeFile(
+        module_path + "/" + `${module_name + el.fileName}`,
+        "",
+        function (err) {
+          if (err) throw err;
+          return;
+        }
+      );
+    }
   }
 }
 
@@ -63,12 +77,16 @@ function createModuleFiles(module_path: any, module_name: any) {
  * create controller files for provided module name
  */
 function createControllerFile(controller_name: any) {
+  let className =
+    controller_name.charAt(0).toUpperCase() +
+    controller_name.slice(1) +
+    "Controller";
   fs.writeFile(
     controllerPath + "/" + `${controller_name + "Controller.ts"}`,
-    "",
+    `export class ${className} { }`,
     function (err) {
       if (err) throw err;
-      console.log(`${controller_name + "Controller.ts"} created!!`);
+      console.info("module created succesfully!");
     }
   );
 }
@@ -77,12 +95,14 @@ function createControllerFile(controller_name: any) {
  * Create routes file for provided module name
  */
 function createRouteFile(route_name: any) {
+  let className =
+    route_name.charAt(0).toUpperCase() + route_name.slice(1) + "Routes";
   fs.writeFile(
     routesPath + "/" + `${route_name + "Routes.ts"}`,
-    "",
+    `export class ${className} { }`,
     function (err) {
       if (err) throw err;
-      console.log(`${route_name + "Routes.ts"} created!!`);
+      return;
     }
   );
 }

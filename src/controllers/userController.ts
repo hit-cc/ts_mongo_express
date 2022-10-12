@@ -102,8 +102,6 @@ export class UserController {
    * update user
    */
   public update_user(req: Request, res: Response) {
-    console.log("req.body ::", req.body);
-
     try {
       if (
         (req.params.id && req.body.name) ||
@@ -118,8 +116,6 @@ export class UserController {
         this.user_service.filterUser(
           user_filter,
           (err: any, user_data: IUser) => {
-            console.log("user_data filter_for uipdate:;", user_data);
-
             if (err) {
               mongoError(err, res);
             } else if (user_data) {
@@ -160,8 +156,6 @@ export class UserController {
                   : user_data.is_deleted,
                 modification_notes: user_data.modification_notes,
               };
-
-              console.log("user_params =====>>", user_params);
 
               this.user_service.updateUser(user_params, (err: any) => {
                 if (err) {
