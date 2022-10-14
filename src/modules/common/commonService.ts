@@ -1,40 +1,38 @@
 import { Response } from "express";
 import { response_status_codes } from "./commonModel";
 
-export function successResponse(
-  message: string,
-  DATA: any,
-  res: Response,
-  TOTAL_RECORDS?: Number
-) {
+export function successResponse(message: string, data: any, res: Response) {
   res.status(response_status_codes.success).json({
-    STATUS: "SUCCESS",
-    MESSAGE: message,
-    TOTAL_RECORDS,
-    DATA,
+    status: "success",
+    status_code: response_status_codes.success,
+    message: message,
+    data,
   });
 }
 
-export function failureResponse(message: string, DATA: any, res: Response) {
+export function failureResponse(message: string, data: any, res: Response) {
   res.status(response_status_codes.success).json({
-    STATUS: "FAILURE",
-    MESSAGE: message,
-    DATA: [],
+    status: "failure",
+    status_code: response_status_codes.success,
+    message: message,
+    data,
   });
 }
 
 export function insufficientParameters(res: Response) {
   res.status(response_status_codes.bad_request).json({
-    STATUS: "FAILURE",
-    MESSAGE: "Insufficient parameters",
-    DATA: {},
+    status: "failure",
+    status_code: response_status_codes.bad_request,
+    message: "Insufficient parameters",
+    res,
   });
 }
 
 export function mongoError(err: any, res: Response) {
   res.status(response_status_codes.internal_server_error).json({
-    STATUS: "FAILURE",
-    MESSAGE: "MongoDB error",
-    DATA: err,
+    status: "failure",
+    status_code: response_status_codes.internal_server_error,
+    message: "MongoDB error",
+    data: res,
   });
 }

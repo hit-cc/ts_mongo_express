@@ -218,12 +218,11 @@ export class UserController {
           if (user_data.length == 0) {
             successResponse("No records found !", user_data, res);
           } else {
-            successResponse(
-              "get all users successfully!",
-              user_data,
-              res,
-              user_data.length
-            );
+            const data = {
+              list: user_data,
+              total_records: user_data.length,
+            };
+            successResponse("get all users successfully!", data, res);
           }
         }
       });
