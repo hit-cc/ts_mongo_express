@@ -1,4 +1,4 @@
-import express = require("express");
+import express, { Request } from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 import { CommonRoutes } from "../routes/commonRoutes";
@@ -6,6 +6,7 @@ import { UserRoutes } from "../routes/userRoutes";
 import { TestRoutes } from "../routes/test_routes";
 import { AuthRoute } from "../routes/authRoutes";
 import environment from "../environment";
+import cors from "cors";
 
 class App {
   public app: express.Application;
@@ -26,8 +27,22 @@ class App {
   }
 
   private config(): void {
+    const corse_options: cors.CorsOptions = {
+      allowedHeaders: [
+        "Origin",
+        "X-Requested-With",
+        "Content-Type",
+        "Accept",
+        "X-Access-Token",
+      ],
+      credentials: true,
+      methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+      origin: "*",
+      preflightContinue: false,
+    };
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use(cors(corse_options));
   }
 
   private mongoSetup(): void {
